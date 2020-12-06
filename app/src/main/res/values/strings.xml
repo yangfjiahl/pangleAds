@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">AppInChina</string>
+    <string name="app_name">pangleAds</string>
+    <string name="main_sdk_version_tip">SDK Version %1$s</string>
+    <string name="load_horizontal_fullscreen_video">加载横版全屏视频广告</string>
+    <string name="load_vertical_fullscreen_video">加载竖版全屏视频广告</string>
+    <string name="show_fullscreen_video">展示全屏视频广告</string>
 </resources>

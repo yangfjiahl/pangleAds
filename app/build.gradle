@@ -2,16 +2,54 @@ plugins {
     id 'com.android.application'
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+def versionMajor = 0
+def versionMinor = 4
+def versionPatch = 1
+
+def VERSION_NAME = "${versionMajor}.${versionMinor}.${versionPatch}"
+def VERSION_CODE = versionMajor * 10000 + versionMinor * 100 + versionPatch
+
 android {
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        debug {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+        preDexLibraries true
+        maxProcessCount 8
+    }
 
     defaultConfig {
         applicationId "com.mandou.appinchina"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -19,19 +57,56 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+            jniDebuggable false
+            renderscriptDebuggable false
+            minifyEnabled false
+            useProguard false
+            zipAlignEnabled true
+            signingConfig signingConfigs.debug
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                if (buildType.name == 'release') {
+                    outputFileName = "app_v" + defaultConfig.versionName + "_" + new Date().format("yyyy-MM-dd") + "_" + buildType.name + ".apk"
+                }
+            }
+    }
 }
+
+def SUPPORT_VERSION = "27.1.1"
 
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compile(name: 'open_ad_sdk', ext: 'aar')
+
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    compile(name: 'LayoutManagerGroup', ext: 'aar')
+
+    compile(name: 'circleimageview-2.2.0', ext: 'aar')
+
+    implementation "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
+    implementation "com.android.support:support-annotations:${SUPPORT_VERSION}"
+    implementation "com.android.support:support-v4:${SUPPORT_VERSION}"
+    implementation "com.android.support:recyclerview-v7:${SUPPORT_VERSION}"
 
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
