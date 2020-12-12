@@ -128,6 +128,8 @@ public class RewardVideoActivity extends Activity {
                 Log.e(TAG, "Callback --> onRewardVideoCached");
                 mIsLoaded = true;
                 TToast.show(RewardVideoActivity.this, "Callback --> rewardVideoAd video cached");
+                mttRewardVideoAd.showRewardVideoAd(RewardVideoActivity.this, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "scenes_test");
+                mttRewardVideoAd = null;
             }
 
             //视频广告的素材加载完毕，比如视频url等，在此回调后，可以播放在线视频，网络不好可能出现加载缓冲，影响体验。

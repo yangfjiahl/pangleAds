@@ -20,7 +20,7 @@
             android:layout_marginRight="8dp"
             android:gravity="center"
             android:textColor="#3399cc"
-            android:text="信息流"
+            android:text="Feed"
             android:theme="@style/PrimaryButton"
             android:textSize="14sp" />
 

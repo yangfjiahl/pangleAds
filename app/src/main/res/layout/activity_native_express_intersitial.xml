@@ -80,6 +80,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:visibility="gone"
         android:gravity="center"
         android:text="showAd"
         android:textColor="#3399cc"

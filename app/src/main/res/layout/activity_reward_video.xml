@@ -43,6 +43,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
+        android:visibility="gone"
         android:text="展示激励视频广告"
         android:textColor="#3399cc"
         android:textSize="14sp"

@@ -173,6 +173,7 @@ public class BannerExpressActivity extends Activity {
                 bindAdListener(mTTAd);
                 startTime = System.currentTimeMillis();
                 TToast.show(mContext,"load success!");
+                mTTAd.render();
             }
         });
     }

@@ -101,6 +101,7 @@ public class InteractionExpressActivity extends Activity implements View.OnClick
                 bindAdListener(mTTAd);
                 startTime = System.currentTimeMillis();
                 TToast.show(mContext, "load success !");
+                showAd();
             }
         });
     }
