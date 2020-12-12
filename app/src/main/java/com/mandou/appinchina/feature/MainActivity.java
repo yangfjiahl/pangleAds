@@ -11,11 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bytedance.sdk.openadsdk.downloadnew.core.ExitInstallListener;
 import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
-import com.mandou.appinchina.activity.AllExpressAdActivity;
-import com.mandou.appinchina.activity.DrawNativeVideoActivity;
-import com.mandou.appinchina.activity.FeedRecyclerActivity;
-import com.mandou.appinchina.activity.NativeInteractionActivity;
-import com.mandou.appinchina.activity.NativeWaterfallActivity;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 
 public class MainActivity extends AppCompatActivity {

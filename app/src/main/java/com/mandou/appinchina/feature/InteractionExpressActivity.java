@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.FilterWord;
@@ -24,7 +25,7 @@ import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
 import com.mandou.appinchina.view.DislikeDialog;
 
-public class InteractionExpressActivity extends Activity implements View.OnClickListener {
+public class InteractionExpressActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TTAdNative mTTAdNative;
     private Context mContext;

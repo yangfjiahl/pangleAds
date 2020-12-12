@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.FilterWord;
@@ -43,7 +44,7 @@ import com.mandou.appinchina.view.LoadMoreListView;
 /**
  * Feed广告使用示例,使用ListView
  */
-public class NativeExpressListActivity extends Activity {
+public class NativeExpressListActivity extends AppCompatActivity {
     private static final String TAG = "NativeExpressListActivity";
 
     private static final int AD_POSITION = 3;

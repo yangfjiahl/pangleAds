@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
@@ -24,7 +25,7 @@ import com.mandou.appinchina.utils.TToast;
  * Created by bytedance on 2018/2/1.
  */
 
-public class FullScreenVideoActivity extends Activity {
+public class FullScreenVideoActivity extends AppCompatActivity {
     private static final String TAG = "FullScreenVideoActivity";
     private Button mLoadAd;
     private Button mLoadAdVertical;

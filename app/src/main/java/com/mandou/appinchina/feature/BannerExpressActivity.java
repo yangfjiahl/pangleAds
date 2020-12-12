@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,7 +38,7 @@ import com.mandou.appinchina.view.LoadMoreRecyclerView;
 /**
  * created by wuzejian on 2019-12-22
  */
-public class BannerExpressActivity extends Activity {
+public class BannerExpressActivity extends AppCompatActivity {
 
     private TTAdNative mTTAdNative;
     private FrameLayout mExpressContainer;
