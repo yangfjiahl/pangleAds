@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 
 /**
@@ -38,19 +39,19 @@ public class AllExpressAdActivity extends Activity {
                 Intent intent = new Intent(AllExpressAdActivity.this, clz);
                 //全屏模板视频代码位id
                 if (v.getId() == R.id.express_full_screen_video_ad) {
-                    intent.putExtra("horizontal_rit", "901121516");
-                    intent.putExtra("vertical_rit", "901121073");
+					intent.putExtra("horizontal_rit", AdCodes.HORIZONTAL_VIDEO);
+					intent.putExtra("vertical_rit", AdCodes.VERTICAL_VIDEO);
                     intent.putExtra("is_express", true);
                 }
                 //激励模板视频代码位id
                 if (v.getId() == R.id.express_rewarded_video_ad) {
-                    intent.putExtra("horizontal_rit", "901121543");
-                    intent.putExtra("vertical_rit", "901121593");
+					intent.putExtra("horizontal_rit", AdCodes.HORIZONTAL_REWARD);
+					intent.putExtra("vertical_rit", AdCodes.VERTICAL_REWARD);
                     intent.putExtra("is_express", true);
                 }
                 //开屏模板代码位id
                 if (v.getId() == R.id.express_splash_ad) {
-                    intent.putExtra("splash_rit", "801121974");
+					intent.putExtra("splash_rit", AdCodes.SPLASH_ID);
                     intent.putExtra("is_express", true);
                 }
                 startActivity(intent);

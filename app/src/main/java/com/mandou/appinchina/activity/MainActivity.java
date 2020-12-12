@@ -9,7 +9,7 @@ import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bytedance.sdk.openadsdk.downloadnew.core.ExitInstallListener;
-import com.mandou.appinchina.Codes;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 
@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, clz);
                 //全屏视频代码位id
                 if (v.getId() == R.id.btn_main_full) {
-                    intent.putExtra("horizontal_rit", Codes.HORIZONTAL_VIDEO);
-                    intent.putExtra("vertical_rit",Codes.VERTICAL_VIDEO);
+					intent.putExtra("horizontal_rit", AdCodes.HORIZONTAL_VIDEO);
+					intent.putExtra("vertical_rit", AdCodes.VERTICAL_VIDEO);
                 }
                 //激励视频代码位id
                 if (v.getId() == R.id.btn_mian_reward) {
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //开屏代码位id
                 if (v.getId() == R.id.btn_mian_splash) {
-                    intent.putExtra("splash_rit", Codes.SPLASH_ID);
+					intent.putExtra("splash_rit", AdCodes.SPLASH_ID);
                     intent.putExtra("is_express", false);
                 }
                 startActivity(intent);

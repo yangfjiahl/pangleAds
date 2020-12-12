@@ -18,6 +18,7 @@ import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
@@ -62,13 +63,13 @@ public class InteractionExpressActivity extends Activity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_size_1_1:
-                loadExpressAd("945509693", 300, 300);
+				loadExpressAd(AdCodes.INTERACTION_1_1, 300, 300);
                 break;
             case R.id.btn_size_2_3:
-                loadExpressAd("945509702", 300, 450);
+				loadExpressAd(AdCodes.INTERACTION_2_3, 300, 450);
                 break;
             case R.id.btn_size_3_2:
-                loadExpressAd("945509833", 450, 300);
+				loadExpressAd(AdCodes.INTERACTION_3_2, 450, 300);
                 break;
             case R.id.btn_show_ad:
                 showAd();

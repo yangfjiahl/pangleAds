@@ -74,7 +74,7 @@
         android:textSize="14sp" />
 
 
-    <com.union_test.toutiao.view.LoadMoreListView
+    <com.mandou.appinchina.view.LoadMoreListView
         android:id="@+id/my_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

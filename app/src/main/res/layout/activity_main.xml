@@ -50,6 +50,7 @@
             android:layout_marginRight="8dp"
             android:gravity="center"
             android:textColor="#3399cc"
+            android:visibility="gone"
             android:text="feed广告demo(ListView)"
             android:theme="@style/PrimaryButton"
             android:textSize="14sp" />

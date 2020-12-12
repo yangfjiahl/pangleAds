@@ -26,6 +26,7 @@ import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
@@ -89,14 +90,10 @@ public class BannerExpressActivity extends Activity {
 
     private void initData() {
         mBannerAdSizeModelList = new ArrayList<>();
-        mBannerAdSizeModelList.add(new AdSizeModel("600*90", 300, 45, "901121246"));
-        mBannerAdSizeModelList.add(new AdSizeModel("600*150", 300, 75, "901121700"));
-        mBannerAdSizeModelList.add(new AdSizeModel("600*260", 300, 130, "901121148"));
-        mBannerAdSizeModelList.add(new AdSizeModel("600*300", 300, 150, "945509757"));
-        mBannerAdSizeModelList.add(new AdSizeModel("600*400", 300, 200, "945509751"));
-        mBannerAdSizeModelList.add(new AdSizeModel("640*100", 320, 50, "901121223"));
-        mBannerAdSizeModelList.add(new AdSizeModel("690*388", 345, 194, "945509738"));
-        mBannerAdSizeModelList.add(new AdSizeModel("600*500", 300, 250, "945509744"));
+		mBannerAdSizeModelList
+				.add(new AdSizeModel("600*150", 300, 75, AdCodes.BANNER_600_150));
+		mBannerAdSizeModelList
+				.add(new AdSizeModel("600*300", 300, 150, AdCodes.BANNER_600_300));
     }
 
 

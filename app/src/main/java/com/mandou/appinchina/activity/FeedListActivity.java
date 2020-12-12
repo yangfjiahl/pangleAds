@@ -34,6 +34,7 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTFeedAd;
 import com.bytedance.sdk.openadsdk.TTImage;
 import com.bytedance.sdk.openadsdk.TTNativeAd;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
@@ -95,7 +96,7 @@ public class FeedListActivity extends Activity {
     private void loadListAd() {
         //step4:创建feed广告请求类型参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId("901121737")
+				.setCodeId(AdCodes.FEEDLIST)
                 .setImageAcceptedSize(640, 320)
                 //[start支持模板样式]:需要支持模板广告和原生广告样式的切换，需要调用supportRenderControl和setExpressViewAcceptedSize
                 .supportRenderControl() //支持模板样式

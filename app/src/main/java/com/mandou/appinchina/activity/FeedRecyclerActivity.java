@@ -41,6 +41,7 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTFeedAd;
 import com.bytedance.sdk.openadsdk.TTImage;
 import com.bytedance.sdk.openadsdk.TTNativeAd;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
@@ -171,8 +172,9 @@ public class FeedRecyclerActivity extends Activity {
     private void loadListAd() {
         //feed广告请求类型参数
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId("901121737")
-                .setImageAcceptedSize(640, 320)
+				.setCodeId(AdCodes.FEEDLIST)
+				// .setImageAcceptedSize(640, 320)
+				.setExpressViewAcceptedSize(640, 320)
                 .setAdCount(3)
                 .build();
         //调用feed广告异步请求接口
@@ -183,6 +185,10 @@ public class FeedRecyclerActivity extends Activity {
                     mListView.setLoadingFinish();
                 }
                 TToast.show(FeedRecyclerActivity.this, message);
+				/**
+				 * 两种情况：1. SDK版本低；使用的sdk版本过低，还不支持个性化模板渲染功能。解决办法：升级到平台最新版本sdk。2.
+				 * 接口使用错误；创建的代码位类型是模板渲染/非模板渲染，但是请求方法是非模板渲染/模板渲染的方法。解决办法：使用模板渲染的方法去请求模板渲染类型或者使用非模板渲染的方法去请求非模板类型的广告，如果代码位在平台上是模板渲染，可以参考文档中个性化模板XX广告的部分，demo中参考带有express部分的代码。如果代码位不是模板渲染，则不要调用含有express字样的接口。参考文档：https://partner.oceanengine.com/doc?id=5dd0fe716b181e00112e3eb8
+				 */
             }
 
             @Override

@@ -31,6 +31,7 @@ import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
@@ -123,7 +124,7 @@ public class NativeExpressListActivity extends Activity {
         }
         //step4:创建feed广告请求类型参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId("901121125")
+				.setCodeId(AdCodes.FEEDLIST)
                 .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight) //期望模板广告view的size,单位dp
                 .setAdCount(3) //请求广告数量为1到3条
                 .build();
@@ -156,10 +157,10 @@ public class NativeExpressListActivity extends Activity {
         });
     }
 
-    private void bindAdListener(final List<TTNativeExpressAd> ads) {
-        final int count = mData.size();
+	private void bindAdListener(List<TTNativeExpressAd> ads) {
+		int count = mData.size();
         for (TTNativeExpressAd ad : ads) {
-            final TTNativeExpressAd adTmp = ad;
+			TTNativeExpressAd adTmp = ad;
             int random = (int) (Math.random() * LIST_ITEM_COUNT) + count - LIST_ITEM_COUNT;
             mData.set(random, adTmp);
             myAdapter.notifyDataSetChanged();
@@ -212,8 +213,8 @@ public class NativeExpressListActivity extends Activity {
         private Map<AdViewHolder, TTAppDownloadListener> mTTAppDownloadListenerMap = new WeakHashMap<>();
 
         public MyAdapter(Context context, List<TTNativeExpressAd> data) {
-            this.mContext = context;
-            this.mData = data;
+			mContext = context;
+			mData = data;
         }
 
         @Override
@@ -277,8 +278,9 @@ public class NativeExpressListActivity extends Activity {
         }
 
         //渲染视频广告，以视频广告为例，以下说明
-        private View getVideoView(View convertView, ViewGroup parent, @NonNull final TTNativeExpressAd ad) {
-            final AdViewHolder adViewHolder;
+		private View getVideoView(View convertView, ViewGroup parent,
+				@NonNull TTNativeExpressAd ad) {
+			AdViewHolder adViewHolder;
             try {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(mContext).inflate(R.layout.listitem_ad_native_express, parent, false);
@@ -338,7 +340,7 @@ public class NativeExpressListActivity extends Activity {
          * @param ad
          * @param customStyle 是否自定义样式，true:样式自定义
          */
-        private void bindDislike(final TTNativeExpressAd ad, boolean customStyle) {
+		private void bindDislike(TTNativeExpressAd ad, boolean customStyle) {
             if (customStyle) {
                 //使用自定义样式
                 List<FilterWord> words = ad.getFilterWords();
@@ -347,7 +349,7 @@ public class NativeExpressListActivity extends Activity {
                 }
 
 
-                final DislikeDialog dislikeDialog = new DislikeDialog(mContext, words);
+				DislikeDialog dislikeDialog = new DislikeDialog(mContext, words);
                 dislikeDialog.setOnDislikeItemClick(new DislikeDialog.OnDislikeItemClick() {
                     @Override
                     public void onItemClick(FilterWord filterWord) {
@@ -383,7 +385,8 @@ public class NativeExpressListActivity extends Activity {
             });
         }
 
-        private void bindData(View convertView, final AdViewHolder adViewHolder, TTNativeExpressAd ad) {
+		private void bindData(View convertView, AdViewHolder adViewHolder,
+				TTNativeExpressAd ad) {
             //设置dislike弹窗，这里展示自定义的dialog
             bindDislike(ad, false);
             switch (ad.getInteractionType()) {
@@ -394,7 +397,8 @@ public class NativeExpressListActivity extends Activity {
         }
 
 
-        private void bindDownloadListener(final AdViewHolder adViewHolder, TTNativeExpressAd ad) {
+		private void bindDownloadListener(AdViewHolder adViewHolder,
+				TTNativeExpressAd ad) {
             TTAppDownloadListener downloadListener = new TTAppDownloadListener() {
                 private boolean mHasShowDownloadActive = false;
 

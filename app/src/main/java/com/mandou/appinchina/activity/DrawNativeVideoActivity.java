@@ -37,6 +37,7 @@ import com.bytedance.sdk.openadsdk.TTDrawFeedAd;
 import com.bytedance.sdk.openadsdk.TTNativeAd;
 import com.dingmouren.layoutmanagergroup.viewpager.OnViewPagerListener;
 import com.dingmouren.layoutmanagergroup.viewpager.ViewPagerLayoutManager;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.NetworkUtils;
@@ -95,7 +96,7 @@ public class DrawNativeVideoActivity extends AppCompatActivity {
     private void loadDrawNativeAd() {
         //step3:创建广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId("901121709")
+				.setCodeId(AdCodes.DRAW)
                 .setImageAcceptedSize(1080, 1920)
                 .setAdCount(2) //请求广告数量为1到3条
                 .build();

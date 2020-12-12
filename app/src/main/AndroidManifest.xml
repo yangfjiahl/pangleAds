@@ -107,6 +107,11 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name=".activity.NativeWaterfallActivity"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity android:name=".activity.AllExpressAdActivity" />
 
         <service android:name=".service.AppDownloadService" />

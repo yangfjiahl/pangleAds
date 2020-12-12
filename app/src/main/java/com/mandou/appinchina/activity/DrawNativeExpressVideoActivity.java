@@ -32,6 +32,7 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.dingmouren.layoutmanagergroup.viewpager.OnViewPagerListener;
 import com.dingmouren.layoutmanagergroup.viewpager.ViewPagerLayoutManager;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.NetworkUtils;
@@ -96,7 +97,7 @@ public class DrawNativeExpressVideoActivity extends AppCompatActivity {
         float expressViewWidth = UIUtils.getScreenWidthDp(this);
         float expressViewHeight = UIUtils.getHeight(this);
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId("901121041")
+				.setCodeId(AdCodes.DRAW)
                 .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight) //期望模板广告view的size,单位dp
                 .setAdCount(2) //请求广告数量为1到3条
                 .build();

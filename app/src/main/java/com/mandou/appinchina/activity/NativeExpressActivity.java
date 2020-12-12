@@ -21,6 +21,7 @@ import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
@@ -67,9 +68,9 @@ public class NativeExpressActivity extends Activity {
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.btn_express_load) {
-                loadExpressAd("901121253");
+				loadExpressAd(AdCodes.FEEDLIST);
             }else if (v.getId() == R.id.btn_express_load_video){
-                loadExpressAd("901121134");
+				loadExpressAd(AdCodes.FEEDLIST);
             }
         }
     };

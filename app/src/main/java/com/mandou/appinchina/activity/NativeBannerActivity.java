@@ -25,6 +25,7 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTImage;
 import com.bytedance.sdk.openadsdk.TTNativeAd;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
@@ -77,16 +78,16 @@ public class NativeBannerActivity extends Activity {
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.btn_banner_download) {
-                loadBannerAd("901121423");
+				loadBannerAd(AdCodes.BANNER_600_150);
             }
         }
     };
 
     private void loadBannerAd(String codeId) {
         //step4:创建广告请求参数AdSlot,注意其中的setNativeAdtype方法，具体参数含义参考文档
-        final AdSlot adSlot = new AdSlot.Builder()
+		AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId)
-                .setImageAcceptedSize(600, 257)
+				.setImageAcceptedSize(600, 150)
                 //[start支持模板样式]:需要支持模板广告和原生广告样式的切换，需要调用supportRenderControl和setExpressViewAcceptedSize
                 .supportRenderControl() //支持模板样式
                 .setExpressViewAcceptedSize(350,300)//设置模板宽高（dp）
@@ -107,7 +108,7 @@ public class NativeBannerActivity extends Activity {
                 if (ads.get(0) == null) {
                     return;
                 }
-                final TTNativeAd ad = ads.get(0);
+				TTNativeAd ad = ads.get(0);
                 //【注意】
                 //如果打开了支持模板样式开关 supportRenderControl()：
                 //则需要给广告对象设置ExpressRenderListener监听，

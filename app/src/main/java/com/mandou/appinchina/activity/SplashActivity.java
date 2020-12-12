@@ -15,7 +15,7 @@ import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
-import com.mandou.appinchina.Codes;
+import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
 
     //开屏广告加载超时时间,建议大于3000,这里为了冷启动第一次加载到广告并且展示,示例设置了3000ms
     private static final int AD_TIME_OUT = 3000;
-    private String mCodeId = Codes.SPLASH_ID;
+	private String mCodeId = AdCodes.SPLASH_ID;
     private boolean mIsExpress = false; //是否请求模板广告
 
     @Override
@@ -217,7 +217,7 @@ public class SplashActivity extends AppCompatActivity {
      * 跳转到主页面
      */
     private void goToMainActivity() {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+		Intent intent = new Intent(SplashActivity.this, AllExpressAdActivity.class);
         startActivity(intent);
         mSplashContainer.removeAllViews();
         finish();
