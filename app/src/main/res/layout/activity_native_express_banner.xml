@@ -16,7 +16,7 @@
         android:textColor="#3399cc"
         android:textSize="16sp" />
 
-    <com.union_test.toutiao.view.LoadMoreRecyclerView
+    <com.mandou.appinchina.view.LoadMoreRecyclerView
         android:id="@+id/my_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

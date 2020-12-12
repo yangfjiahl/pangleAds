@@ -33,17 +33,18 @@
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Splash">
+        </activity>
+
+        <activity android:name=".feature.MainActivity"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.MainActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:launchMode="singleTask"
-            android:exported="true"
-            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.NativeBannerActivity"
@@ -63,12 +64,12 @@
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.RewardVideoActivity"
+            android:name=".feature.RewardVideoActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.FullScreenVideoActivity"
+            android:name=".feature.FullScreenVideoActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait" />
 
@@ -91,18 +92,18 @@
         </activity>
 
         <activity
-            android:name=".activity.NativeExpressListActivity"
+            android:name=".feature.NativeExpressListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.InteractionExpressActivity"
+            android:name=".feature.InteractionExpressActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activity.BannerExpressActivity"
+            android:name=".feature.BannerExpressActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait">
         </activity>

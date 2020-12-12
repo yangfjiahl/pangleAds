@@ -1,23 +1,15 @@
-package com.mandou.appinchina.activity;
+package com.mandou.appinchina.feature;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.FilterWord;
@@ -31,35 +23,32 @@ import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
 import com.mandou.appinchina.view.DislikeDialog;
-import com.mandou.appinchina.view.LoadMoreRecyclerView;
 
-/**
- * created by wuzejian on 2019-12-22
- */
-public class BannerExpressActivity extends Activity {
+public class InteractionExpressActivity extends Activity implements View.OnClickListener {
 
     private TTAdNative mTTAdNative;
-    private FrameLayout mExpressContainer;
     private Context mContext;
     private TTAdDislike mTTAdDislike;
     private TTNativeExpressAd mTTAd;
-    private LoadMoreRecyclerView mListView;
-    private List<AdSizeModel> mBannerAdSizeModelList;
     private long startTime = 0;
     private boolean mHasShowDownloadActive = false;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_native_express_banner);
+        setContentView(R.layout.activity_native_express_intersitial);
         mContext = getApplicationContext();
         initView();
-        initData();
-        initRecycleView();
         initTTSDKConfig();
+    }
 
+
+    private void initView() {
+        findViewById(R.id.btn_size_1_1).setOnClickListener(this);
+        findViewById(R.id.btn_size_2_3).setOnClickListener(this);
+        findViewById(R.id.btn_size_3_2).setOnClickListener(this);
+        findViewById(R.id.btn_show_ad).setOnClickListener(this);
     }
 
     private void initTTSDKConfig() {
@@ -69,96 +58,38 @@ public class BannerExpressActivity extends Activity {
         TTAdManagerHolder.get().requestPermissionIfNecessary(this);
     }
 
-    private void initRecycleView() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
-        mListView.setLayoutManager(layoutManager);
-        AdapterForBannerType adapterForBannerType = new AdapterForBannerType(this, mBannerAdSizeModelList);
-        mListView.setAdapter(adapterForBannerType);
 
-    }
-
-    private void initView() {
-        mExpressContainer = (FrameLayout) findViewById(R.id.express_container);
-        mListView = findViewById(R.id.my_list);
-        findViewById(R.id.showBanner).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickShowBanner();
-            }
-        });
-    }
-
-    private void initData() {
-        mBannerAdSizeModelList = new ArrayList<>();
-		mBannerAdSizeModelList
-				.add(new AdSizeModel("600*150", 300, 75, AdCodes.BANNER_600_150));
-		mBannerAdSizeModelList
-				.add(new AdSizeModel("600*300", 300, 150, AdCodes.BANNER_600_300));
-    }
-
-
-    public static class AdapterForBannerType extends RecyclerView.Adapter<AdapterForBannerType.ViewHolder> {
-        private List<AdSizeModel> mBannerSizeList;
-        private BannerExpressActivity mActivity;
-
-        public AdapterForBannerType(BannerExpressActivity activity, List<AdSizeModel> bannerSize) {
-            mActivity = activity;
-            mBannerSizeList = bannerSize;
-        }
-
-        @NonNull
-        @Override
-        public AdapterForBannerType.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.express_banner_list_item, viewGroup, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull AdapterForBannerType.ViewHolder viewHolder, int i) {
-            AdSizeModel bannerSize = mBannerSizeList == null ? null : mBannerSizeList.get(i);
-            if (bannerSize != null) {
-                viewHolder.btnSize.setText(bannerSize.adSizeName);
-                viewHolder.btnSize.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //请求banner广告
-                        mActivity.loadExpressAd(bannerSize.codeId, bannerSize.width, bannerSize.height);
-                    }
-                });
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return mBannerSizeList != null ? mBannerSizeList.size() : 0;
-        }
-
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            private Button btnSize;
-
-            public ViewHolder(View view) {
-                super(view);
-                btnSize = view.findViewById(R.id.btn_banner_size);
-            }
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_size_1_1:
+				loadExpressAd(AdCodes.INTERACTION_1_1, 300, 300);
+                break;
+            case R.id.btn_size_2_3:
+				loadExpressAd(AdCodes.INTERACTION_2_3, 300, 450);
+                break;
+            case R.id.btn_size_3_2:
+				loadExpressAd(AdCodes.INTERACTION_3_2, 450, 300);
+                break;
+            case R.id.btn_show_ad:
+                showAd();
+                break;
         }
     }
 
     private void loadExpressAd(String codeId, int expressViewWidth, int expressViewHeight) {
-        mExpressContainer.removeAllViews();
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId) //广告位id
                 .setAdCount(1) //请求广告数量为1到3条
+                .setUserID("calvin")
                 .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight) //期望模板广告view的size,单位dp
                 .build();
         //step5:请求广告，对请求回调的广告作渲染处理
-        mTTAdNative.loadBannerExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
+        mTTAdNative.loadInteractionExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
             @Override
             public void onError(int code, String message) {
-                TToast.show(BannerExpressActivity.this, "load error : " + code + ", " + message);
-                mExpressContainer.removeAllViews();
+                TToast.show(InteractionExpressActivity.this, "load error : " + code + ", " + message);
             }
 
             @Override
@@ -167,25 +98,29 @@ public class BannerExpressActivity extends Activity {
                     return;
                 }
                 mTTAd = ads.get(0);
-                mTTAd.setSlideIntervalTime(30 * 1000);
                 bindAdListener(mTTAd);
                 startTime = System.currentTimeMillis();
-                TToast.show(mContext,"load success!");
+                TToast.show(mContext, "load success !");
             }
         });
     }
 
-    public void onClickShowBanner() {
+    private void showAd() {
         if (mTTAd != null) {
             mTTAd.render();
-        } else {
-            TToast.show(mContext, "请先加载广告..");
+        }else {
+            TToast.show(mContext,"请先加载广告");
         }
     }
 
 
     private void bindAdListener(TTNativeExpressAd ad) {
-        ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
+        ad.setExpressInteractionListener(new TTNativeExpressAd.AdInteractionListener() {
+            @Override
+            public void onAdDismiss() {
+                TToast.show(mContext, "广告关闭");
+            }
+
             @Override
             public void onAdClicked(View view, int type) {
                 TToast.show(mContext, "广告被点击");
@@ -207,11 +142,10 @@ public class BannerExpressActivity extends Activity {
                 Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
                 //返回view的宽高 单位 dp
                 TToast.show(mContext, "渲染成功");
-                mExpressContainer.removeAllViews();
-                mExpressContainer.addView(view);
+                mTTAd.showInteractionExpressAd(InteractionExpressActivity.this);
+
             }
         });
-        //dislike设置
         bindDislike(ad, false);
         if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
             return;
@@ -219,45 +153,39 @@ public class BannerExpressActivity extends Activity {
         ad.setDownloadListener(new TTAppDownloadListener() {
             @Override
             public void onIdle() {
-                TToast.show(BannerExpressActivity.this, "点击开始下载", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "点击开始下载", Toast.LENGTH_LONG);
             }
 
             @Override
             public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
                 if (!mHasShowDownloadActive) {
                     mHasShowDownloadActive = true;
-                    TToast.show(BannerExpressActivity.this, "下载中，点击暂停", Toast.LENGTH_LONG);
+                    TToast.show(InteractionExpressActivity.this, "下载中，点击暂停", Toast.LENGTH_LONG);
                 }
             }
 
             @Override
             public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-                TToast.show(BannerExpressActivity.this, "下载暂停，点击继续", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "下载暂停，点击继续", Toast.LENGTH_LONG);
             }
 
             @Override
             public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-                TToast.show(BannerExpressActivity.this, "下载失败，点击重新下载", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "下载失败，点击重新下载", Toast.LENGTH_LONG);
             }
 
             @Override
             public void onInstalled(String fileName, String appName) {
-                TToast.show(BannerExpressActivity.this, "安装完成，点击图片打开", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "安装完成，点击图片打开", Toast.LENGTH_LONG);
             }
 
             @Override
             public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-                TToast.show(BannerExpressActivity.this, "点击安装", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "点击安装", Toast.LENGTH_LONG);
             }
         });
     }
 
-    /**
-     * 设置广告的不喜欢, 注意：强烈建议设置该逻辑，如果不设置dislike处理逻辑，则模板广告中的 dislike区域不响应dislike事件。
-     *
-     * @param ad
-     * @param customStyle 是否自定义样式，true:样式自定义
-     */
     private void bindDislike(TTNativeExpressAd ad, boolean customStyle) {
         if (customStyle) {
             //使用自定义样式
@@ -272,20 +200,17 @@ public class BannerExpressActivity extends Activity {
                 public void onItemClick(FilterWord filterWord) {
                     //屏蔽广告
                     TToast.show(mContext, "点击 " + filterWord.getName());
-                    //用户选择不喜欢原因后，移除广告展示
-                    mExpressContainer.removeAllViews();
                 }
             });
             ad.setDislikeDialog(dislikeDialog);
             return;
         }
         //使用默认模板中默认dislike弹出样式
-        ad.setDislikeCallback(BannerExpressActivity.this, new TTAdDislike.DislikeInteractionCallback() {
+        ad.setDislikeCallback(InteractionExpressActivity.this, new TTAdDislike.DislikeInteractionCallback() {
             @Override
             public void onSelected(int position, String value) {
-                TToast.show(mContext, "点击 " + value);
-                //用户选择不喜欢原因后，移除广告展示
-                mExpressContainer.removeAllViews();
+                //TToast.show(mContext, "反馈了 " + value);
+                TToast.show(mContext, "\t\t\t\t\t\t\t感谢您的反馈!\t\t\t\t\t\t\n我们将为您带来更优质的广告体验", 3);
             }
 
             @Override
@@ -295,7 +220,7 @@ public class BannerExpressActivity extends Activity {
 
             @Override
             public void onRefuse() {
-
+                TToast.show(mContext, "您已成功提交反馈，请勿重复提交哦！", 3);
             }
 
         });
@@ -310,17 +235,4 @@ public class BannerExpressActivity extends Activity {
     }
 
 
-    public static class AdSizeModel {
-        public AdSizeModel(String adSizeName, int width, int height, String codeId) {
-            this.adSizeName = adSizeName;
-            this.width = width;
-            this.height = height;
-            this.codeId = codeId;
-        }
-
-        public String adSizeName;
-        public int width;
-        public int height;
-        public String codeId;
-    }
 }

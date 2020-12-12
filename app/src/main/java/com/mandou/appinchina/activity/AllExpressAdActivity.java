@@ -10,6 +10,10 @@ import androidx.annotation.Nullable;
 
 import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
+import com.mandou.appinchina.feature.BannerExpressActivity;
+import com.mandou.appinchina.feature.FullScreenVideoActivity;
+import com.mandou.appinchina.feature.NativeExpressListActivity;
+import com.mandou.appinchina.feature.RewardVideoActivity;
 
 /**
  * created by wuzejian on 2019-12-19
@@ -24,9 +28,9 @@ public class AllExpressAdActivity extends Activity {
         bindButton(R.id.express_native_ad, NativeExpressActivity.class);
         bindButton(R.id.express_native_ad_list, NativeExpressListActivity.class);
         bindButton(R.id.express_banner_ad, BannerExpressActivity.class);
-        bindButton(R.id.express_interstitial_ad, InteractionExpressActivity.class);
+
         bindButton(R.id.express_splash_ad, SplashActivity.class);
-        bindButton(R.id.express_rewarded_video_ad, RewardVideoActivity.class);
+
         bindButton(R.id.express_full_screen_video_ad, FullScreenVideoActivity.class);
         bindButton(R.id.express_draw_video_ad, DrawNativeExpressVideoActivity.class);
 

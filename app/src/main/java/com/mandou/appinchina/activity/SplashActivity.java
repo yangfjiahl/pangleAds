@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,7 @@ import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
+import com.mandou.appinchina.utils.UIUtils;
 
 /**
  * 开屏广告Activity示例
@@ -26,7 +27,7 @@ import com.mandou.appinchina.utils.TToast;
 public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
     private TTAdNative mTTAdNative;
-    private FrameLayout mSplashContainer;
+    private LinearLayout mSplashContainer;
     //是否强制跳转到主页面
     private boolean mForceGoMain;
 
@@ -40,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
-        mSplashContainer = (FrameLayout) findViewById(R.id.splash_container);
+        mSplashContainer = (LinearLayout) findViewById(R.id.splash_container);
         //step2:创建TTAdNative对象
         mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
         getExtraInfo();
@@ -84,21 +85,22 @@ public class SplashActivity extends AppCompatActivity {
     private void loadSplashAd() {
         //step3:创建开屏广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = null;
+        float width = UIUtils.getScreenWidthDp(this);
+        float height = UIUtils.getHeight(this) - 100;
         if (mIsExpress) {
             //个性化模板广告需要传入期望广告view的宽、高，单位dp，请传入实际需要的大小，
             //比如：广告下方拼接logo、适配刘海屏等，需要考虑实际广告大小
-            //float expressViewWidth = UIUtils.getScreenWidthDp(this);
-            //float expressViewHeight = UIUtils.getHeight(this);
+
             adSlot = new AdSlot.Builder()
                     .setCodeId(mCodeId)
                     //模板广告需要设置期望个性化模板广告的大小,单位dp,代码位是否属于个性化模板广告，请在穿山甲平台查看
                     //view宽高等于图片的宽高
-                    .setExpressViewAcceptedSize(1080,1920)
+                    .setExpressViewAcceptedSize(width,height)
                     .build();
         } else {
             adSlot = new AdSlot.Builder()
                     .setCodeId(mCodeId)
-                    .setImageAcceptedSize(1080, 1920)
+                    .setImageAcceptedSize((int)width,(int)height)
                     .build();
         }
 

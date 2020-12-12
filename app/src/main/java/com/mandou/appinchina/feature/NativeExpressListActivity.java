@@ -1,4 +1,4 @@
-package com.mandou.appinchina.activity;
+package com.mandou.appinchina.feature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ import com.mandou.appinchina.view.LoadMoreListView;
  * Feed广告使用示例,使用ListView
  */
 public class NativeExpressListActivity extends Activity {
-    private static final String TAG = "FeedListActivity";
+    private static final String TAG = "NativeExpressListActivity";
 
     private static final int AD_POSITION = 3;
     private static final int LIST_ITEM_COUNT = 30;
