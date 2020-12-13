@@ -28,91 +28,103 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppInChina">
 
-        <activity
-            android:name=".activity.SplashActivity"
+        <activity android:name=".feature.MainActivity"
             android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Splash">
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.MainActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:launchMode="singleTask"
-            android:exported="true"
-            android:screenOrientation="portrait"/>
-
         <activity
-            android:name=".activity.NativeBannerActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.FeedListActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.FeedRecyclerActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.NativeInteractionActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.RewardVideoActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.FullScreenVideoActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.DrawNativeVideoActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-            android:name=".activity.DrawNativeExpressVideoActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-            android:name=".activity.NativeExpressActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-            android:name=".activity.NativeExpressListActivity"
+            android:name=".feature.NativeExpressListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.InteractionExpressActivity"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait">
-        </activity>
 
         <activity
-            android:name=".activity.BannerExpressActivity"
+            android:name=".feature.BannerExpressActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".activity.NativeWaterfallActivity"
+        <activity
+            android:name=".feature.FullScreenVideoActivity"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".feature.InteractionExpressActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".activity.AllExpressAdActivity" />
+        <activity
+            android:name=".feature.RewardVideoActivity"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+<!--        <activity-->
+<!--            android:name=".activity.SplashActivity"-->
+<!--            android:configChanges="keyboard|orientation|screenSize"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@style/Theme.Splash">-->
+<!--        </activity>-->
+
+<!--        <activity-->
+<!--            android:name=".activity.NativeBannerActivity"-->
+<!--            android:configChanges="keyboard|orientation|screenSize"-->
+<!--            android:screenOrientation="portrait" />-->
+<!--        <activity-->
+<!--            android:name=".activity.FeedListActivity"-->
+<!--            android:configChanges="keyboard|orientation|screenSize"-->
+<!--            android:screenOrientation="portrait" />-->
+<!--        <activity-->
+<!--            android:name=".activity.FeedRecyclerActivity"-->
+<!--            android:configChanges="keyboard|orientation|screenSize"-->
+<!--            android:screenOrientation="portrait" />-->
+
+<!--        <activity-->
+<!--            android:name=".activity.NativeInteractionActivity"-->
+<!--            android:configChanges="keyboard|orientation|screenSize"-->
+<!--            android:screenOrientation="portrait" />-->
+<!--        -->
+
+<!--        -->
+
+<!--        <activity-->
+<!--            android:name=".activity.DrawNativeVideoActivity"-->
+<!--            android:configChanges="keyboard|orientation|screenSize"-->
+<!--            android:screenOrientation="portrait">-->
+<!--        </activity>-->
+
+<!--        <activity-->
+<!--            android:name=".activity.DrawNativeExpressVideoActivity"-->
+<!--            android:configChanges="keyboard|orientation|screenSize"-->
+<!--            android:screenOrientation="portrait">-->
+<!--        </activity>-->
+
+<!--        <activity-->
+<!--            android:name=".activity.NativeExpressActivity"-->
+<!--            android:configChanges="keyboard|orientation|screenSize"-->
+<!--            android:screenOrientation="portrait">-->
+<!--        </activity>-->
+
+
+
+<!--        -->
+
+<!--        -->
+
+<!--        <activity android:name=".activity.NativeWaterfallActivity"-->
+<!--            android:configChanges="keyboard|orientation|screenSize"-->
+<!--            android:screenOrientation="portrait">-->
+<!--        </activity>-->
+
+<!--        <activity android:name=".activity.AllExpressAdActivity" />-->
 
         <service android:name=".service.AppDownloadService" />
 

@@ -1,4 +1,4 @@
-package com.mandou.appinchina.activity;
+package com.mandou.appinchina.feature;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,23 +20,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_main);
 
         TextView tvVersion = findViewById(R.id.tv_version);
         String ver = getString(R.string.main_sdk_version_tip, TTAdManagerHolder.get().getSDKVersion());
         tvVersion.setText(ver);
 
-        bindButton(R.id.btn_main_feed_lv, FeedListActivity.class);
-        bindButton(R.id.btn_main_feed_rv, FeedRecyclerActivity.class);
-        bindButton(R.id.btn_mian_splash, SplashActivity.class);
-        bindButton(R.id.btn_mian_reward, RewardVideoActivity.class);
+//        bindButton(R.id.btn_mian_splash, SplashActivity.class);
+
+        bindButton(R.id.btn_main_feed_lv, NativeExpressListActivity.class);
+        bindButton(R.id.btn_main_banner_native, BannerExpressActivity.class);
         bindButton(R.id.btn_main_full, FullScreenVideoActivity.class);
-        bindButton(R.id.btn_main_banner_native, NativeBannerActivity.class);
-        bindButton(R.id.btn_main_interstitial_native, NativeInteractionActivity.class);
-        bindButton(R.id.btn_main_draw_native, DrawNativeVideoActivity.class);
-        bindButton(R.id.btn_express_ad, AllExpressAdActivity.class);
-        bindButton(R.id.btn_waterfall,NativeWaterfallActivity.class);
+        bindButton(R.id.btn_interstitial_ad, InteractionExpressActivity.class);
+        bindButton(R.id.btn_rewarded_video_ad, RewardVideoActivity.class);
+
+//        bindButton(R.id.btn_main_feed_rv, FeedRecyclerActivity.class);
+//        bindButton(R.id.btn_mian_reward, RewardVideoActivity.class);
+//        bindButton(R.id.btn_main_interstitial_native, NativeInteractionActivity.class);
+//        bindButton(R.id.btn_main_draw_native, DrawNativeVideoActivity.class);
+//        bindButton(R.id.btn_express_ad, AllExpressAdActivity.class);
+//        bindButton(R.id.btn_waterfall, NativeWaterfallActivity.class);
         // 申请部分权限,建议在sdk初始化前申请,如：READ_PHONE_STATE、ACCESS_COARSE_LOCATION及ACCESS_FINE_LOCATION权限，
         // 以获取更好的广告推荐效果，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
         TTAdManagerHolder.get().requestPermissionIfNecessary(this);
@@ -55,16 +58,16 @@ public class MainActivity extends AppCompatActivity {
 					intent.putExtra("vertical_rit", AdCodes.VERTICAL_VIDEO);
                 }
                 //激励视频代码位id
-                if (v.getId() == R.id.btn_mian_reward) {
-                    intent.putExtra("horizontal_rit","901121430");
-                    intent.putExtra("vertical_rit","901121365");
+                if (v.getId() == R.id.btn_rewarded_video_ad) {
+                    intent.putExtra("horizontal_rit",AdCodes.HORIZONTAL_REWARD);
+                    intent.putExtra("vertical_rit",AdCodes.VERTICAL_REWARD);
                 }
 
                 //开屏代码位id
-                if (v.getId() == R.id.btn_mian_splash) {
-					intent.putExtra("splash_rit", AdCodes.SPLASH_ID);
-                    intent.putExtra("is_express", false);
-                }
+//                if (v.getId() == R.id.btn_mian_splash) {
+//					intent.putExtra("splash_rit", AdCodes.SPLASH_ID);
+//                    intent.putExtra("is_express", false);
+//                }
                 startActivity(intent);
             }
         });

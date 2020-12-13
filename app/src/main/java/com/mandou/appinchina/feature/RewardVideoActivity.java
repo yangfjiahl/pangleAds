@@ -1,4 +1,4 @@
-package com.mandou.appinchina.activity;
+package com.mandou.appinchina.feature;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
@@ -24,7 +25,7 @@ import com.mandou.appinchina.utils.TToast;
  * Created by bytedance on 2018/2/1.
  */
 
-public class RewardVideoActivity extends Activity {
+public class RewardVideoActivity extends AppCompatActivity {
     private static final String TAG = "RewardVideoActivity";
     private Button mLoadAd;
     private Button mLoadAdVertical;
@@ -62,7 +63,7 @@ public class RewardVideoActivity extends Activity {
         }
         mHorizontalCodeId = intent.getStringExtra("horizontal_rit");
         mVerticalCodeId = intent.getStringExtra("vertical_rit");
-        mIsExpress = intent.getBooleanExtra("is_express", false);
+        mIsExpress = intent.getBooleanExtra("is_express", true);
     }
 
     private void initClickEvent() {
@@ -128,6 +129,8 @@ public class RewardVideoActivity extends Activity {
                 Log.e(TAG, "Callback --> onRewardVideoCached");
                 mIsLoaded = true;
                 TToast.show(RewardVideoActivity.this, "Callback --> rewardVideoAd video cached");
+                mttRewardVideoAd.showRewardVideoAd(RewardVideoActivity.this, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "scenes_test");
+                mttRewardVideoAd = null;
             }
 
             //视频广告的素材加载完毕，比如视频url等，在此回调后，可以播放在线视频，网络不好可能出现加载缓冲，影响体验。

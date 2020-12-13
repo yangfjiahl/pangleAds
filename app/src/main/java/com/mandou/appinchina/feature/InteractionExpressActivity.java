@@ -1,4 +1,4 @@
-package com.mandou.appinchina.activity;
+package com.mandou.appinchina.feature;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.FilterWord;
@@ -24,7 +25,7 @@ import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
 import com.mandou.appinchina.view.DislikeDialog;
 
-public class InteractionExpressActivity extends Activity implements View.OnClickListener {
+public class InteractionExpressActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TTAdNative mTTAdNative;
     private Context mContext;
@@ -82,6 +83,7 @@ public class InteractionExpressActivity extends Activity implements View.OnClick
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId) //广告位id
                 .setAdCount(1) //请求广告数量为1到3条
+                .setUserID("calvin")
                 .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight) //期望模板广告view的size,单位dp
                 .build();
         //step5:请求广告，对请求回调的广告作渲染处理
@@ -100,6 +102,7 @@ public class InteractionExpressActivity extends Activity implements View.OnClick
                 bindAdListener(mTTAd);
                 startTime = System.currentTimeMillis();
                 TToast.show(mContext, "load success !");
+                showAd();
             }
         });
     }

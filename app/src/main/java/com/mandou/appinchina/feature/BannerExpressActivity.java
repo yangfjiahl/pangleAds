@@ -1,4 +1,4 @@
-package com.mandou.appinchina.activity;
+package com.mandou.appinchina.feature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,13 +31,14 @@ import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
+import com.mandou.appinchina.utils.UIUtils;
 import com.mandou.appinchina.view.DislikeDialog;
 import com.mandou.appinchina.view.LoadMoreRecyclerView;
 
 /**
  * created by wuzejian on 2019-12-22
  */
-public class BannerExpressActivity extends Activity {
+public class BannerExpressActivity extends AppCompatActivity {
 
     private TTAdNative mTTAdNative;
     private FrameLayout mExpressContainer;
@@ -90,10 +92,11 @@ public class BannerExpressActivity extends Activity {
 
     private void initData() {
         mBannerAdSizeModelList = new ArrayList<>();
+        int width = (int)UIUtils.getScreenWidthDp(this);
 		mBannerAdSizeModelList
-				.add(new AdSizeModel("600*150", 300, 75, AdCodes.BANNER_600_150));
+				.add(new AdSizeModel("600*150", width, width / 4, AdCodes.BANNER_600_150));
 		mBannerAdSizeModelList
-				.add(new AdSizeModel("600*300", 300, 150, AdCodes.BANNER_600_300));
+				.add(new AdSizeModel("600*300", width, width / 2, AdCodes.BANNER_600_300));
     }
 
 
@@ -171,6 +174,7 @@ public class BannerExpressActivity extends Activity {
                 bindAdListener(mTTAd);
                 startTime = System.currentTimeMillis();
                 TToast.show(mContext,"load success!");
+                mTTAd.render();
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.mandou.appinchina.activity;
+package com.mandou.appinchina.feature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.FilterWord;
@@ -35,6 +36,7 @@ import com.mandou.appinchina.AdCodes;
 import com.mandou.appinchina.R;
 import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
+import com.mandou.appinchina.utils.UIUtils;
 import com.mandou.appinchina.view.DislikeDialog;
 import com.mandou.appinchina.view.ILoadMoreListener;
 import com.mandou.appinchina.view.LoadMoreListView;
@@ -42,8 +44,8 @@ import com.mandou.appinchina.view.LoadMoreListView;
 /**
  * Feed广告使用示例,使用ListView
  */
-public class NativeExpressListActivity extends Activity {
-    private static final String TAG = "FeedListActivity";
+public class NativeExpressListActivity extends AppCompatActivity {
+    private static final String TAG = "NativeExpressListActivity";
 
     private static final int AD_POSITION = 3;
     private static final int LIST_ITEM_COUNT = 30;
@@ -114,18 +116,19 @@ public class NativeExpressListActivity extends Activity {
      * 加载feed广告
      */
     private void loadListAd() {
-        float expressViewWidth = 350;
-        float expressViewHeight = 350;
-        try {
-            expressViewWidth = Float.parseFloat(mEtWidth.getText().toString());
-            expressViewHeight = Float.parseFloat(mEtHeight.getText().toString());
-        } catch (Exception e) {
-            expressViewHeight = 0; //高度设置为0,则高度会自适应
-        }
+//        float expressViewWidth = 350;
+//        float expressViewHeight = 350;
+//        try {
+//            expressViewWidth = Float.parseFloat(mEtWidth.getText().toString());
+//            expressViewHeight = Float.parseFloat(mEtHeight.getText().toString());
+//        } catch (Exception e) {
+//            expressViewHeight = 0; //高度设置为0,则高度会自适应
+//        }
+        int width = (int)UIUtils.getScreenWidthDp(this);
         //step4:创建feed广告请求类型参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = new AdSlot.Builder()
 				.setCodeId(AdCodes.FEEDLIST)
-                .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight) //期望模板广告view的size,单位dp
+                .setExpressViewAcceptedSize(width, 0) //期望模板广告view的size,单位dp
                 .setAdCount(3) //请求广告数量为1到3条
                 .build();
         //step5:请求广告，调用feed广告异步请求接口，加载到广告后，拿到广告素材自定义渲染
