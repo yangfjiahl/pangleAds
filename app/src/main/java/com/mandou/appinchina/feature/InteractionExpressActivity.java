@@ -25,6 +25,9 @@ import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
 import com.mandou.appinchina.view.DislikeDialog;
 
+/**
+ * Interaction Ad
+ */
 public class InteractionExpressActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TTAdNative mTTAdNative;
@@ -53,9 +56,9 @@ public class InteractionExpressActivity extends AppCompatActivity implements Vie
     }
 
     private void initTTSDKConfig() {
-        //step2:创建TTAdNative对象，createAdNative(Context context) banner广告context需要传入Activity对象
+        //step1: create TTAdNative as request endpoint
         mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
-        //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
+        //step2: test and require permission before Ad is shown
         TTAdManagerHolder.get().requestPermissionIfNecessary(this);
     }
 
@@ -79,14 +82,15 @@ public class InteractionExpressActivity extends AppCompatActivity implements Vie
     }
 
     private void loadExpressAd(String codeId, int expressViewWidth, int expressViewHeight) {
-        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
+        //step4: create AdSlot
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(codeId) //广告位id
-                .setAdCount(1) //请求广告数量为1到3条
+                .setCodeId(codeId)
+                .setAdCount(1)
                 .setUserID("calvin")
-                .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight) //期望模板广告view的size,单位dp
+                // set required width and height in dp
+                .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight)
                 .build();
-        //step5:请求广告，对请求回调的广告作渲染处理
+        //step5: load Ad and setup a listener
         mTTAdNative.loadInteractionExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
             @Override
             public void onError(int code, String message) {
@@ -111,7 +115,7 @@ public class InteractionExpressActivity extends AppCompatActivity implements Vie
         if (mTTAd != null) {
             mTTAd.render();
         }else {
-            TToast.show(mContext,"请先加载广告");
+            TToast.show(mContext,"please load before shown");
         }
     }
 
@@ -120,17 +124,17 @@ public class InteractionExpressActivity extends AppCompatActivity implements Vie
         ad.setExpressInteractionListener(new TTNativeExpressAd.AdInteractionListener() {
             @Override
             public void onAdDismiss() {
-                TToast.show(mContext, "广告关闭");
+                TToast.show(mContext, "Ad close");
             }
 
             @Override
             public void onAdClicked(View view, int type) {
-                TToast.show(mContext, "广告被点击");
+                TToast.show(mContext, "Ad click");
             }
 
             @Override
             public void onAdShow(View view, int type) {
-                TToast.show(mContext, "广告展示");
+                TToast.show(mContext, "Ad show");
             }
 
             @Override
@@ -143,7 +147,7 @@ public class InteractionExpressActivity extends AppCompatActivity implements Vie
             public void onRenderSuccess(View view, float width, float height) {
                 Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
                 //返回view的宽高 单位 dp
-                TToast.show(mContext, "渲染成功");
+                TToast.show(mContext, "render success");
                 mTTAd.showInteractionExpressAd(InteractionExpressActivity.this);
 
             }
@@ -155,42 +159,41 @@ public class InteractionExpressActivity extends AppCompatActivity implements Vie
         ad.setDownloadListener(new TTAppDownloadListener() {
             @Override
             public void onIdle() {
-                TToast.show(InteractionExpressActivity.this, "点击开始下载", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "click to download", Toast.LENGTH_LONG);
             }
 
             @Override
             public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
                 if (!mHasShowDownloadActive) {
                     mHasShowDownloadActive = true;
-                    TToast.show(InteractionExpressActivity.this, "下载中，点击暂停", Toast.LENGTH_LONG);
+                    TToast.show(InteractionExpressActivity.this, "downloading", Toast.LENGTH_LONG);
                 }
             }
 
             @Override
             public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-                TToast.show(InteractionExpressActivity.this, "下载暂停，点击继续", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "download stopped", Toast.LENGTH_LONG);
             }
 
             @Override
             public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-                TToast.show(InteractionExpressActivity.this, "下载失败，点击重新下载", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "download fail", Toast.LENGTH_LONG);
             }
 
             @Override
             public void onInstalled(String fileName, String appName) {
-                TToast.show(InteractionExpressActivity.this, "安装完成，点击图片打开", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "install successs", Toast.LENGTH_LONG);
             }
 
             @Override
             public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-                TToast.show(InteractionExpressActivity.this, "点击安装", Toast.LENGTH_LONG);
+                TToast.show(InteractionExpressActivity.this, "click to install", Toast.LENGTH_LONG);
             }
         });
     }
 
     private void bindDislike(TTNativeExpressAd ad, boolean customStyle) {
         if (customStyle) {
-            //使用自定义样式
             List<FilterWord> words = ad.getFilterWords();
             if (words == null || words.isEmpty()) {
                 return;
@@ -200,29 +203,27 @@ public class InteractionExpressActivity extends AppCompatActivity implements Vie
             dislikeDialog.setOnDislikeItemClick(new DislikeDialog.OnDislikeItemClick() {
                 @Override
                 public void onItemClick(FilterWord filterWord) {
-                    //屏蔽广告
-                    TToast.show(mContext, "点击 " + filterWord.getName());
+                    // dislike
+                    TToast.show(mContext, "click " + filterWord.getName());
                 }
             });
             ad.setDislikeDialog(dislikeDialog);
             return;
         }
-        //使用默认模板中默认dislike弹出样式
         ad.setDislikeCallback(InteractionExpressActivity.this, new TTAdDislike.DislikeInteractionCallback() {
             @Override
             public void onSelected(int position, String value) {
-                //TToast.show(mContext, "反馈了 " + value);
-                TToast.show(mContext, "\t\t\t\t\t\t\t感谢您的反馈!\t\t\t\t\t\t\n我们将为您带来更优质的广告体验", 3);
+                TToast.show(mContext, "dislike: " + value, 3);
             }
 
             @Override
             public void onCancel() {
-                TToast.show(mContext, "点击取消 ");
+                TToast.show(mContext, "cancel ");
             }
 
             @Override
             public void onRefuse() {
-                TToast.show(mContext, "您已成功提交反馈，请勿重复提交哦！", 3);
+                TToast.show(mContext, "submit success！", 3);
             }
 
         });

@@ -22,9 +22,8 @@ import com.mandou.appinchina.config.TTAdManagerHolder;
 import com.mandou.appinchina.utils.TToast;
 
 /**
- * Created by bytedance on 2018/2/1.
+ * Full Screen Video
  */
-
 public class FullScreenVideoActivity extends AppCompatActivity {
     private static final String TAG = "FullScreenVideoActivity";
     private Button mLoadAd;
@@ -34,8 +33,8 @@ public class FullScreenVideoActivity extends AppCompatActivity {
     private TTFullScreenVideoAd mttFullVideoAd;
     private String mHorizontalCodeId;
     private String mVerticalCodeId;
-    private boolean mIsExpress = false; //是否请求模板广告
-    private boolean mIsLoaded = false; //视频是否加载完成
+    private boolean mIsExpress = false;
+    private boolean mIsLoaded = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,11 +44,11 @@ public class FullScreenVideoActivity extends AppCompatActivity {
         mLoadAd = (Button) findViewById(R.id.btn_reward_load);
         mLoadAdVertical = (Button) findViewById(R.id.btn_reward_load_vertical);
         mShowAd = (Button) findViewById(R.id.btn_reward_show);
-        //step1:初始化sdk
+        //step1: initialize sdk
         TTAdManager ttAdManager = TTAdManagerHolder.get();
-        //step2:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
+        //step2: test and require permission before Ad is shown
         TTAdManagerHolder.get().requestPermissionIfNecessary(this);
-        //step3:创建TTAdNative对象,用于调用广告请求接口
+        //step3: create TTAdNative as request endpoint
         mTTAdNative = ttAdManager.createAdNative(getApplicationContext());
         getExtraInfo();
         initClickEvent();
@@ -83,15 +82,11 @@ public class FullScreenVideoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mttFullVideoAd != null&&mIsLoaded) {
-                    //step6:在获取到广告后展示
-                    //该方法直接展示广告
-                    //mttFullVideoAd.showFullScreenVideoAd(FullScreenVideoActivity.this);
-
-                    //展示广告，并传入广告展示的场景
+                    //step6: show Ad
                     mttFullVideoAd.showFullScreenVideoAd(FullScreenVideoActivity.this, TTAdConstant.RitScenes.GAME_GIFT_BONUS, null);
                     mttFullVideoAd = null;
                 } else {
-                    TToast.show(FullScreenVideoActivity.this, "请先加载广告");
+                    TToast.show(FullScreenVideoActivity.this, "please load before show");
                 }
             }
         });
@@ -99,12 +94,12 @@ public class FullScreenVideoActivity extends AppCompatActivity {
     private boolean mHasShowDownloadActive = false;
 
     private void loadAd(String codeId, int orientation) {
-        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
+        //step4: create AdSlot
         AdSlot adSlot;
         if (mIsExpress) {
             adSlot = new AdSlot.Builder()
                     .setCodeId(codeId)
-                    //模板广告需要设置期望个性化模板广告的大小,单位dp,全屏视频场景，只要设置的值大于0即可
+                    // set required width and height in dp
                     .setExpressViewAcceptedSize(500,500)
                     .build();
 
@@ -113,7 +108,7 @@ public class FullScreenVideoActivity extends AppCompatActivity {
                     .setCodeId(codeId)
                     .build();
         }
-        //step5:请求广告
+        //step5: load Ad and setup a listener
         mTTAdNative.loadFullScreenVideoAd(adSlot, new TTAdNative.FullScreenVideoAdListener() {
             @Override
             public void onError(int code, String message) {
@@ -125,7 +120,7 @@ public class FullScreenVideoActivity extends AppCompatActivity {
             public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ad) {
                 Log.e(TAG, "Callback --> onFullScreenVideoAdLoad");
 
-                TToast.show(FullScreenVideoActivity.this, "FullVideoAd loaded  广告类型：" + getAdType(ad.getFullVideoAdType()));
+                TToast.show(FullScreenVideoActivity.this, "FullVideoAd loaded  Ad：" + getAdType(ad.getFullVideoAdType()));
                 mttFullVideoAd = ad;
                 mIsLoaded = false;
                 mttFullVideoAd.setFullScreenVideoAdInteractionListener(new TTFullScreenVideoAd.FullScreenVideoAdInteractionListener() {
@@ -176,32 +171,32 @@ public class FullScreenVideoActivity extends AppCompatActivity {
 
                         if (!mHasShowDownloadActive) {
                             mHasShowDownloadActive = true;
-                            TToast.show(FullScreenVideoActivity.this, "下载中，点击下载区域暂停", Toast.LENGTH_LONG);
+                            TToast.show(FullScreenVideoActivity.this, "downloading", Toast.LENGTH_LONG);
                         }
                     }
 
                     @Override
                     public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
                         Log.d("DML", "onDownloadPaused===totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(FullScreenVideoActivity.this, "下载暂停，点击下载区域继续", Toast.LENGTH_LONG);
+                        TToast.show(FullScreenVideoActivity.this, "download stopped", Toast.LENGTH_LONG);
                     }
 
                     @Override
                     public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
                         Log.d("DML", "onDownloadFailed==totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(FullScreenVideoActivity.this, "下载失败，点击下载区域重新下载", Toast.LENGTH_LONG);
+                        TToast.show(FullScreenVideoActivity.this, "download fail", Toast.LENGTH_LONG);
                     }
 
                     @Override
                     public void onDownloadFinished(long totalBytes, String fileName, String appName) {
                         Log.d("DML", "onDownloadFinished==totalBytes=" + totalBytes + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(FullScreenVideoActivity.this, "下载完成，点击下载区域重新下载", Toast.LENGTH_LONG);
+                        TToast.show(FullScreenVideoActivity.this, "download success", Toast.LENGTH_LONG);
                     }
 
                     @Override
                     public void onInstalled(String fileName, String appName) {
                         Log.d("DML", "onInstalled==" + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(FullScreenVideoActivity.this, "安装完成，点击下载区域打开", Toast.LENGTH_LONG);
+                        TToast.show(FullScreenVideoActivity.this, "install success", Toast.LENGTH_LONG);
                     }
                 });
             }
@@ -220,13 +215,13 @@ public class FullScreenVideoActivity extends AppCompatActivity {
     private String getAdType(int type) {
         switch (type) {
             case TTAdConstant.AD_TYPE_COMMON_VIDEO:
-                return "普通全屏视频，type=" + type;
+                return "Normal Video，type=" + type;
             case TTAdConstant.AD_TYPE_PLAYABLE_VIDEO:
-                return "Playable全屏视频，type=" + type;
+                return "Playable Full Screen Video，type=" + type;
             case TTAdConstant.AD_TYPE_PLAYABLE:
-                return "纯Playable，type=" + type;
+                return "Playable，type=" + type;
         }
 
-        return "未知类型+type=" + type;
+        return "unknown+type=" + type;
     }
 }
