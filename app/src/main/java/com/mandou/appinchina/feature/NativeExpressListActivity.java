@@ -42,7 +42,7 @@ import com.mandou.appinchina.view.ILoadMoreListener;
 import com.mandou.appinchina.view.LoadMoreListView;
 
 /**
- * Feed广告使用示例,使用ListView
+ * Feed list Ad
  */
 public class NativeExpressListActivity extends AppCompatActivity {
     private static final String TAG = "NativeExpressListActivity";
@@ -63,11 +63,11 @@ public class NativeExpressListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_native_express_listview);
-        //step1:初始化sdk
+        //step1: initialize sdk
         TTAdManager ttAdManager = TTAdManagerHolder.get();
-        //step2:创建TTAdNative对象,用于调用广告请求接口
+        //step2: create TTAdNative as request endpoint
         mTTAdNative = ttAdManager.createAdNative(this);
-        //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
+        //step3: test and require permission before Ad is shown
         TTAdManagerHolder.get().requestPermissionIfNecessary(this);
         initListView();
     }
@@ -113,31 +113,24 @@ public class NativeExpressListActivity extends AppCompatActivity {
     };
 
     /**
-     * 加载feed广告
+     * require to load feed list Ad
      */
     private void loadListAd() {
-//        float expressViewWidth = 350;
-//        float expressViewHeight = 350;
-//        try {
-//            expressViewWidth = Float.parseFloat(mEtWidth.getText().toString());
-//            expressViewHeight = Float.parseFloat(mEtHeight.getText().toString());
-//        } catch (Exception e) {
-//            expressViewHeight = 0; //高度设置为0,则高度会自适应
-//        }
         int width = (int)UIUtils.getScreenWidthDp(this);
-        //step4:创建feed广告请求类型参数AdSlot,具体参数含义参考文档
+        //step4: create AdSlot
         AdSlot adSlot = new AdSlot.Builder()
 				.setCodeId(AdCodes.FEEDLIST)
-                .setExpressViewAcceptedSize(width, 0) //期望模板广告view的size,单位dp
-                .setAdCount(3) //请求广告数量为1到3条
+                .setExpressViewAcceptedSize(width, 0) // height = 0 means adaptive
+                .setAdCount(3)
                 .build();
-        //step5:请求广告，调用feed广告异步请求接口，加载到广告后，拿到广告素材自定义渲染
+        //step5: load Ad and setup a listener
         mTTAdNative.loadNativeExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
             @Override
             public void onError(int code, String message) {
                 if (mListView != null) {
                     mListView.setLoadingFinish();
                 }
+                // toast error to user
                 TToast.show(NativeExpressListActivity.this, message);
             }
 
@@ -155,6 +148,8 @@ public class NativeExpressListActivity extends AppCompatActivity {
                 for (int i = 0; i < LIST_ITEM_COUNT; i++) {
                     mData.add(null);
                 }
+
+                // show and bind events for each Ad
                 bindAdListener(ads);
             }
         });
@@ -171,12 +166,12 @@ public class NativeExpressListActivity extends AppCompatActivity {
             adTmp.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
                 @Override
                 public void onAdClicked(View view, int type) {
-                    TToast.show(NativeExpressListActivity.this, "广告被点击");
+                    TToast.show(NativeExpressListActivity.this, "Ad clicked");
                 }
 
                 @Override
                 public void onAdShow(View view, int type) {
-                    TToast.show(NativeExpressListActivity.this, "广告展示");
+                    TToast.show(NativeExpressListActivity.this, "Ad shown");
                 }
 
                 @Override
@@ -187,7 +182,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
                 @Override
                 public void onRenderSuccess(View view, float width, float height) {
                     //返回view的宽高 单位 dp
-                    TToast.show(NativeExpressListActivity.this, "渲染成功");
+                    TToast.show(NativeExpressListActivity.this, "Ad render");
                     myAdapter.notifyDataSetChanged();
                 }
             });
@@ -204,8 +199,8 @@ public class NativeExpressListActivity extends AppCompatActivity {
         private static final int ITEM_VIEW_TYPE_SMALL_PIC_AD = 2;
         private static final int ITEM_VIEW_TYPE_LARGE_PIC_AD = 3;
         private static final int ITEM_VIEW_TYPE_VIDEO = 4;
-        private static final int ITEM_VIEW_TYPE_VERTICAL_IMG = 5;//竖版图片
-        private static final int ITEM_VIEW_TYPE_VIDEO_VERTICAL = 6;//竖版视频
+        private static final int ITEM_VIEW_TYPE_VERTICAL_IMG = 5;// vertical image
+        private static final int ITEM_VIEW_TYPE_VIDEO_VERTICAL = 6;// vertical video
 
         private int mVideoCount = 0;
 
@@ -235,7 +230,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
             return position;
         }
 
-        //信息流广告的样式，有大图、小图、组图和视频，通过ad.getImageMode()来判断
+        // several kind of Ad, diff by ad.getImageMode()
         @Override
         public int getItemViewType(int position) {
             TTNativeExpressAd ad = getItem(position);
@@ -254,7 +249,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
             } else if (ad.getImageMode() == TTAdConstant.IMAGE_MODE_VIDEO_VERTICAL) {
                 return ITEM_VIEW_TYPE_VIDEO_VERTICAL;
             } else {
-                TToast.show(mContext, "图片展示样式错误");
+                TToast.show(mContext, "invalid type");
                 return ITEM_VIEW_TYPE_NORMAL;
             }
         }
@@ -280,7 +275,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
             }
         }
 
-        //渲染视频广告，以视频广告为例，以下说明
+        // video Ad
 		private View getVideoView(View convertView, ViewGroup parent,
 				@NonNull TTNativeExpressAd ad) {
 			AdViewHolder adViewHolder;
@@ -294,10 +289,10 @@ public class NativeExpressListActivity extends AppCompatActivity {
                     adViewHolder = (AdViewHolder) convertView.getTag();
                 }
 
-                //绑定广告数据、设置交互回调
+                // bind data and listeners
                 bindData(convertView, adViewHolder, ad);
                 if (adViewHolder.videoView != null) {
-                    //获取视频播放view,该view SDK内部渲染，在媒体平台可配置视频是否自动播放等设置。
+                    // config for video
                     View video = ad.getExpressAdView();
                     if (video != null) {
                         adViewHolder.videoView.removeAllViews();
@@ -338,14 +333,13 @@ public class NativeExpressListActivity extends AppCompatActivity {
         }
 
         /**
-         * 设置广告的不喜欢，注意：强烈建议设置该逻辑，如果不设置dislike处理逻辑，则模板广告中的 dislike区域不响应dislike事件。
+         * setup dislike for Ad
          *
          * @param ad
-         * @param customStyle 是否自定义样式，true:样式自定义
+         * @param customStyle
          */
 		private void bindDislike(TTNativeExpressAd ad, boolean customStyle) {
             if (customStyle) {
-                //使用自定义样式
                 List<FilterWord> words = ad.getFilterWords();
                 if (words == null || words.isEmpty()) {
                     return;
@@ -356,9 +350,9 @@ public class NativeExpressListActivity extends AppCompatActivity {
                 dislikeDialog.setOnDislikeItemClick(new DislikeDialog.OnDislikeItemClick() {
                     @Override
                     public void onItemClick(FilterWord filterWord) {
-                        //屏蔽广告
-                        TToast.show(mContext, "点击 " + filterWord.getName());
-                        //用户选择不喜欢原因后，移除广告展示
+                        // dislike Ad
+                        TToast.show(mContext, "click " + filterWord.getName());
+                        // remove Ad
                         mData.remove(ad);
                         notifyDataSetChanged();
                     }
@@ -366,19 +360,19 @@ public class NativeExpressListActivity extends AppCompatActivity {
                 ad.setDislikeDialog(dislikeDialog);
                 return;
             }
-            //使用默认模板中默认dislike弹出样式
+            // dislike callback
             ad.setDislikeCallback((Activity) mContext, new TTAdDislike.DislikeInteractionCallback() {
                 @Override
                 public void onSelected(int position, String value) {
-                    TToast.show(mContext, "点击 " + value);
-                    //用户选择不喜欢原因后，移除广告展示
+                    TToast.show(mContext, "click " + value);
+                    // dislike and removed
                     mData.remove(ad);
                     notifyDataSetChanged();
                 }
 
                 @Override
                 public void onCancel() {
-                    TToast.show(mContext, "点击取消 ");
+                    TToast.show(mContext, "cancel ");
                 }
 
                 @Override
@@ -390,7 +384,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
 
 		private void bindData(View convertView, AdViewHolder adViewHolder,
 				TTNativeExpressAd ad) {
-            //设置dislike弹窗，这里展示自定义的dialog
+            // dislike dialog
             bindDislike(ad, false);
             switch (ad.getInteractionType()) {
                 case TTAdConstant.INTERACTION_TYPE_DOWNLOAD:
@@ -410,7 +404,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
                     if (!isValid()) {
                         return;
                     }
-                    TToast.show(mContext, "点击广告开始下载");
+                    TToast.show(mContext, "Ad downloading");
                 }
 
                 @SuppressLint("SetTextI18n")
@@ -421,7 +415,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
                     }
                     if (!mHasShowDownloadActive) {
                         mHasShowDownloadActive = true;
-                        TToast.show(mContext, appName + " 下载中，点击暂停", Toast.LENGTH_LONG);
+                        TToast.show(mContext, appName + " downloading", Toast.LENGTH_LONG);
                     }
                 }
 
@@ -431,7 +425,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
                     if (!isValid()) {
                         return;
                     }
-                    TToast.show(mContext, appName + " 下载暂停", Toast.LENGTH_LONG);
+                    TToast.show(mContext, appName + " download stopped", Toast.LENGTH_LONG);
 
                 }
 
@@ -440,7 +434,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
                     if (!isValid()) {
                         return;
                     }
-                    TToast.show(mContext, appName + " 下载失败，重新下载", Toast.LENGTH_LONG);
+                    TToast.show(mContext, appName + " download fail", Toast.LENGTH_LONG);
                 }
 
                 @Override
@@ -448,7 +442,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
                     if (!isValid()) {
                         return;
                     }
-                    TToast.show(mContext, appName + " 安装完成，点击打开", Toast.LENGTH_LONG);
+                    TToast.show(mContext, appName + " download and install success", Toast.LENGTH_LONG);
                 }
 
                 @Override
@@ -456,7 +450,7 @@ public class NativeExpressListActivity extends AppCompatActivity {
                     if (!isValid()) {
                         return;
                     }
-                    TToast.show(mContext, appName + " 下载成功，点击安装", Toast.LENGTH_LONG);
+                    TToast.show(mContext, appName + " download success", Toast.LENGTH_LONG);
 
                 }
 
@@ -464,8 +458,8 @@ public class NativeExpressListActivity extends AppCompatActivity {
                     return mTTAppDownloadListenerMap.get(adViewHolder) == this;
                 }
             };
-            //一个ViewHolder对应一个downloadListener, isValid判断当前ViewHolder绑定的listener是不是自己
-            ad.setDownloadListener(downloadListener); // 注册下载监听器
+            // setup download listener
+            ad.setDownloadListener(downloadListener);
             mTTAppDownloadListenerMap.put(adViewHolder, downloadListener);
         }
 
